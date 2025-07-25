@@ -28,7 +28,7 @@ jobs:
         pyinstaller --onefile --name tackle_tool tackle.py
 
     - name: 📤 上传 EXE 可执行文件
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tackle_tool_exe
         path: dist/tackle_tool.exe
