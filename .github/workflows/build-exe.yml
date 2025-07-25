@@ -1,0 +1,34 @@
+name: Build EXE for tackle_tool
+
+on:
+  workflow_dispatch:     # 允许手动触发
+  push:
+    branches: [ main ]   # 或推送到 main 分支时自动触发
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: 🧾 检出仓库代码
+      uses: actions/checkout@v3
+
+    - name: 🐍 设置 Python 环境
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: 📦 安装依赖
+      run: |
+        pip install -r requirements.txt
+        pip install pyinstaller PyPDF2
+
+    - name: 🛠️ 使用 PyInstaller 打包成 EXE
+      run: |
+        pyinstaller --onefile --name tackle_tool tackle.py
+
+    - name: 📤 上传 EXE 可执行文件
+      uses: actions/upload-artifact@v3
+      with:
+        name: tackle_tool_exe
+        path: dist/tackle_tool.exe
